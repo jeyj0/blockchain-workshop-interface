@@ -1,36 +1,47 @@
 import showError from "./showError";
 import web3 from "web3";
 import Eth from "web3-eth";
+import { refreshKnowledge } from "./actions";
+import jsonInterface from "./injectWeb3/jsonInterface";
+import address from "./injectWeb3/address";
 
-let isReadyVar = false;
+let contract = null;
 
-window.addEventListener("load", async () => {
-  // Modern dapp browsers...
-  if (window.ethereum) {
-    window.eth = new Eth(ethereum);
-    try {
-      // Request account access if needed
-      await ethereum.enable();
+const initContract = eth => {
+  contract = new eth.Contract(jsonInterface, address);
+  window.contract = contract;
 
-      isReadyVar = true;
-    } catch (error) {
-      showError("Access to account denied.");
+  refreshKnowledge();
+};
+
+const init = () => {
+  window.addEventListener("load", async () => {
+    // Modern dapp browsers...
+    if (window.ethereum) {
+      const eth = new Eth(ethereum);
+      try {
+        // Request account access if needed
+        await ethereum.enable();
+
+        initContract(eth);
+      } catch (error) {
+        showError("Access to account denied. \n" + error.message);
+        console.log(error);
+      }
     }
-  }
-  // Legacy dapp browsers...
-  else if (web3) {
-    web3 = new Eth(web3.currentProvider);
+    // Legacy dapp browsers...
+    else if (web3) {
+      web3 = new Eth(web3.currentProvider);
 
-    isReadyVar = true;
-  }
-  // Non-dapp browsers...
-  else {
-    showError(
-      "Non-Ethereum browser detected. You should consider trying MetaMask!"
-    );
-  }
-});
+      initContract(eth);
+    }
+    // Non-dapp browsers...
+    else {
+      showError(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!"
+      );
+    }
+  });
+};
 
-const isReady = () => isReadyVar;
-
-export { isReady };
+export { contract, init };
