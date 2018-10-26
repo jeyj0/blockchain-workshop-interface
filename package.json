@@ -12,7 +12,8 @@
   "dependencies": {
     "ipfs-api": "^25.0.0",
     "parcel": "^1.10.3",
-    "web3": "^1.0.0-beta.36"
+    "web3": "^1.0.0-beta.36",
+    "web3-eth": "^1.0.0-beta.36"
   },
   "devDependencies": {
     "sass": "^1.14.3"
