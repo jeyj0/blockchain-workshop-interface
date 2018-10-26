@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+}
+
+.error {
+  color: #fff;
+  background-color: #aa5555;
+  padding: 2rem;
+  border-radius: 0.3rem;
+}
+
+form {
+  margin-bottom: 2rem;
+  background-color: #8888aa;
+  padding: 2rem;
+  color: #fff;
+  border-radius: 0.3rem;
+
+  button,
+  input,
+  label {
+    display: block;
+    margin: 1rem;
+  }
+
+  .form-group {
+    button,
+    input {
+      display: inline-block;
+    }
+  }
+}
